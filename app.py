@@ -34,34 +34,40 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/metadata/<sample>")
-def sample_metadata(sample):
-    """Return the MetaData for a given sample."""
+@app.route("/parks")
+def parks():
+    # """Return the Park lat, lng and attribute data."""
+ 
     sel = [
-        Samples_Metadata.sample,
-        Samples_Metadata.ETHNICITY,
-        Samples_Metadata.GENDER,
-        Samples_Metadata.AGE,
-        Samples_Metadata.LOCATION,
-        Samples_Metadata.BBTYPE,
-        Samples_Metadata.WFREQ,
-    ]
+        Parks.lat,
+        Parks.lng,
+        Parks.name,
+        Parks.park_type,
+        Parks.address,
+        Parks.developed,
+        Parks.acres
+   ]
 
-    results = db.session.query(*sel).filter(Samples_Metadata.sample == sample).all()
+    results = db.session.query(*sel).all()
+    # print(results)
 
     # Create a dictionary entry for each row of metadata information
-    sample_metadata = {}
+    park_list = []
     for result in results:
-        sample_metadata["sample"] = result[0]
-        sample_metadata["ETHNICITY"] = result[1]
-        sample_metadata["GENDER"] = result[2]
-        sample_metadata["AGE"] = result[3]
-        sample_metadata["LOCATION"] = result[4]
-        sample_metadata["BBTYPE"] = result[5]
-        sample_metadata["WFREQ"] = result[6]
-
-    print(sample_metadata)
-    return jsonify(sample_metadata)
+        park_data = {}
+        park_data["lat"] = result[0]
+        park_data["lng"] = result[1]
+        park_data["location"] = [result[0],result[1]]
+        park_data["name"] = result[2]
+        park_data["park_type"] = result[3]
+        park_data["address"] = result[4]
+        park_data["developed"] = result[5]
+        park_data["acres"] = result[6]
+        park_list.append(park_data)
+    
+    
+    # print(park_list)
+    return jsonify(park_list)
 
 
 
