@@ -1,2 +1,2 @@
 #Google Maps API Key
-api_key = "YOUR KEY HERE"
+api_key = "&key=AIzaSyBp0_QDE1LQPcT6RaNTDQidDh_XVSMnDxE"
