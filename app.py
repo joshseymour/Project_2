@@ -24,9 +24,12 @@ db = SQLAlchemy(app)
 Base = automap_base()
 # reflect the tables
 Base.prepare(db.engine, reflect=True)
+print(Base.prepare)
 
 # Save references to each table
 Parks = Base.classes.parks
+Dog_Parks = Base.classes.dogparks
+# Colleges = Base.classes.colleges 
 
 @app.route("/")
 def index():
@@ -69,7 +72,58 @@ def parks():
     # print(park_list)
     return jsonify(park_list)
 
+@app.route("/dogParks")
+def dogParks():
+    # """Return the Park lat, lng and attribute data."""
+ 
+    sel = [
+        Dog_Parks.lng,
+        Dog_Parks.lat,
+        Dog_Parks.site,
+        Dog_Parks.address,
+        Dog_Parks.status,
+        Dog_Parks.hours,
+        Dog_Parks.agility,
+        Dog_Parks.bathroom,
+        Dog_Parks.bench,
+        Dog_Parks.dog_fountain,
+        Dog_Parks.lights,
+        Dog_Parks.picnic_table,
+        Dog_Parks.shade,
+        Dog_Parks.small_dog_area,
+        Dog_Parks.wood_chips,
+        Dog_Parks.climbing_platform
+   ]
 
+    results = db.session.query(*sel).all()
+    # print(results)
+
+    # Create a dictionary entry for each row of metadata information
+    dog_list = []
+    for result in results:
+        dog_data = {}
+        dog_data["lng"] = result[0]
+        dog_data["lat"] = result[1]
+        dog_data["location"] = [result[1],result[0]]
+        dog_data["site"] = result[2]
+        dog_data["address"] = result[3]
+        dog_data["status"] = result[4]
+        dog_data["hours"] = result[5]
+        dog_data["agility"] = result[6]
+        dog_data["bathroom"] = result[7]
+        dog_data["bench"] = result[8]
+        dog_data["dog_fountain"] = result[9]
+        dog_data["lights"] = result[10]
+        dog_data["picnic_table"] = result[11]
+        dog_data["shade"] = result[12]
+        dog_data["small_dog_area"] = result[13]
+        dog_data["wood_chips"] = result[14]
+        dog_data["climbing_platform"] = result[15]
+        dog_list.append(dog_data)
+    
+    
+    # print(park_list)
+    return jsonify(dog_list)
 
 
 if __name__ == "__main__":
