@@ -19,7 +19,7 @@ CREATE TABLE "dogParks" (
     "shade" varchar   NULL,
     "small_dog_area" varchar   NULL,
     "wood_chips" varchar   NULL,
-    "climbing_platform" varchar   NULL
+    "climbing_platform" varchar   NULL,
     CONSTRAINT "pk_dogParks" PRIMARY KEY (
         "park_id"
      )
