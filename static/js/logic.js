@@ -34,7 +34,9 @@ d3.json("/dogParks", function(dog_data){
     dogInfo.push(dog)
   }
   console.log(dogInfo)
+
 });
+
 
 
 // Adding tile layer
