@@ -29,7 +29,8 @@ print(Base.prepare)
 # Save references to each table
 Parks = Base.classes.parks
 Dog_Parks = Base.classes.dogparks
-# Colleges = Base.classes.colleges 
+colleges = Base.classes.colleges
+# Crimes = Base.classes.crime 
 
 @app.route("/")
 def index():
@@ -124,6 +125,59 @@ def dogParks():
     
     # print(park_list)
     return jsonify(dog_list)
+
+@app.route("/colleges")
+def get_colleges():
+    # """Return the Park lat, lng and attribute data."""
+ 
+    sel = [
+        colleges.collegename,
+        colleges.address,
+        colleges.city,
+        colleges.state,
+        colleges.lat,
+        colleges.lng
+   ]
+    results = db.session.query(*sel).all()
+    # print(results)
+    # Create a dictionary entry for each row of metadata information
+    college_list = []
+    for result in results:
+        college_data = {}
+        college_data["collegename"] = result[0]
+        college_data["address"] = result[1]
+        college_data["city"] = result[2]
+        college_data["state"] = result[3]
+        college_data["lat"] = result[4]
+        college_data["lng"] = result[5]
+        college_data["location"] = [result[4], result[5]]
+        college_list.append(college_data)
+    
+    return jsonify(college_list)
+
+# @app.route("/crimes")
+# def get_crimes():
+#     # """Return the Crimes lat, lng and attribute data."""
+#     sel = [
+#         Crimes.lat,
+#         Crimes.lng,
+#         Crimes.crime,
+#         Crimes.crime_description
+#    ]
+#     results = db.session.query(*sel).all()
+#     # print(results)
+#     # Create a dictionary entry for each row of metadata information
+#     crimes_list = []
+#     for result in results:
+#         crimes_data = {}
+#         crimes_data["lat"] = result[0]
+#         crimes_data["lng"] = result[1]
+#         crimes_data["location"] = [results[0],results[1]]
+#         crimes_data["crime"] = result[2]
+#         crimes_data["crime_description"] = result[3]
+#         crimes_list.append(crimes_data)
+    
+#     return jsonify(crimes_list)
 
 
 if __name__ == "__main__":
