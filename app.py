@@ -23,14 +23,16 @@ db = SQLAlchemy(app)
 # reflect an existing database into a new model
 Base = automap_base()
 # reflect the tables
-Base.prepare(db.engine, reflect=True)
-print(Base.prepare)
+Base.prepare(db.engine, reflect=True, schema="public")
+
 
 # Save references to each table
 Parks = Base.classes.parks
 Dog_Parks = Base.classes.dogparks
 colleges = Base.classes.colleges
-# Crimes = Base.classes.crime 
+Crimes = Base.classes.crime
+Basicedu = Base.classes.basicedu
+Food = Base.classes.wakefood 
 
 @app.route("/")
 def index():
@@ -70,12 +72,12 @@ def parks():
         park_list.append(park_data)
     
     
-    # print(park_list)
+
     return jsonify(park_list)
 
 @app.route("/dogParks")
 def dogParks():
-    # """Return the Park lat, lng and attribute data."""
+    # """Return the Dog Park lat, lng and attribute data."""
  
     sel = [
         Dog_Parks.lng,
@@ -97,7 +99,6 @@ def dogParks():
    ]
 
     results = db.session.query(*sel).all()
-    # print(results)
 
     # Create a dictionary entry for each row of metadata information
     dog_list = []
@@ -122,13 +123,11 @@ def dogParks():
         dog_data["climbing_platform"] = result[15]
         dog_list.append(dog_data)
     
-    
-    # print(park_list)
     return jsonify(dog_list)
 
 @app.route("/colleges")
 def get_colleges():
-    # """Return the Park lat, lng and attribute data."""
+    # """Return the Colleges lat, lng and attribute data."""
  
     sel = [
         colleges.collegename,
@@ -138,8 +137,8 @@ def get_colleges():
         colleges.lat,
         colleges.lng
    ]
+
     results = db.session.query(*sel).all()
-    # print(results)
     # Create a dictionary entry for each row of metadata information
     college_list = []
     for result in results:
@@ -155,30 +154,74 @@ def get_colleges():
     
     return jsonify(college_list)
 
-# @app.route("/crimes")
-# def get_crimes():
-#     # """Return the Crimes lat, lng and attribute data."""
-#     sel = [
-#         Crimes.lat,
-#         Crimes.lng,
-#         Crimes.crime,
-#         Crimes.crime_description
-#    ]
-#     results = db.session.query(*sel).all()
-#     # print(results)
-#     # Create a dictionary entry for each row of metadata information
-#     crimes_list = []
-#     for result in results:
-#         crimes_data = {}
-#         crimes_data["lat"] = result[0]
-#         crimes_data["lng"] = result[1]
-#         crimes_data["location"] = [results[0],results[1]]
-#         crimes_data["crime"] = result[2]
-#         crimes_data["crime_description"] = result[3]
-#         crimes_list.append(crimes_data)
+@app.route("/crimes")
+def get_crimes():
+    # """Return the Crimes lat, lng and attribute data."""
+    sel = [
+        Crimes.lat,
+        Crimes.lng,
+        Crimes.crime,
+        Crimes.crime_description
+   ]
+    results = db.session.query(*sel).all()
+    # Create a dictionary entry for each row of metadata information
+    crimes_list = []
+    for result in results:
+        crimes_data = {}
+        crimes_data["lat"] = result[0]
+        crimes_data["lng"] = result[1]
+        crimes_data["location"] = [result[0],result[1]]
+        crimes_data["crime"] = result[2]
+        crimes_data["crime_description"] = result[3]
+        crimes_list.append(crimes_data)
     
-#     return jsonify(crimes_list)
+    return jsonify(crimes_list)
 
+@app.route("/basicedu")
+def get_schools():
+    # """Return the Schools lat, lng and attribute data."""
+    sel = [
+        Basicedu.lat,
+        Basicedu.lng,
+        Basicedu.schoolname,
+        Basicedu.type
+   ]
+    results = db.session.query(*sel).all()
+    # Create a dictionary entry for each row of metadata information
+    edu_list = []
+    for result in results:
+        edu_data = {}
+        edu_data["lat"] = result[0]
+        edu_data["lng"] = result[1]
+        edu_data["location"] = [result[0],result[1]]
+        edu_data["schoolname"] = result[2]
+        edu_data["type"] = result[3]
+        edu_list.append(edu_data)
+
+    return jsonify(edu_list)
+
+@app.route("/Food")
+def get_food():
+    # """Return the Schools lat, lng and attribute data."""
+    sel = [
+        Food.lat,
+        Food.lng,
+        Food.name,
+        Food.address
+   ]
+    results = db.session.query(*sel).all()
+    # Create a dictionary entry for each row of metadata information
+    food_list = []
+    for result in results:
+        food_data = {}
+        food_data["lat"] = result[0]
+        food_data["lng"] = result[1]
+        food_data["location"] = [result[1],result[0]]
+        food_data["name"] = result[2]
+        food_data["address"] = result[3]
+        food_list.append(food_data)
+
+    return jsonify(food_list)
 
 if __name__ == "__main__":
     app.run()
