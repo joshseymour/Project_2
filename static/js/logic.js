@@ -1,3 +1,4 @@
+//here's a generic function to create the layers on the map
 function addLayergroup(markers, name) {
   var layerGroup = L.layerGroup(markers)
         .addTo(myMap);
@@ -5,6 +6,7 @@ function addLayergroup(markers, name) {
 }
 
 //think we need to add a function to capture all of the data we're collecing in the routes
+//adding parks markers and layer
 d3.json("/parks", function(park_data){
   var yellowIcon = new L.Icon({
     iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
@@ -28,7 +30,7 @@ d3.json("/parks", function(park_data){
   myMap.addLayer(markers)
   control.addOverlay(markers, "Parks");
 });
-
+//adding dog park markers and layer
 d3.json("/dogParks", function(dog_data){
   var blueIcon = new L.Icon({
     iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
@@ -54,7 +56,7 @@ d3.json("/dogParks", function(dog_data){
   myMap.addLayer(markers)
   control.addOverlay(markers, "Dog Parks");
 });
-
+//adding college  markers and layer
 d3.json("/colleges", function(err, college_data){
   var greenIcon = new L.Icon({
     iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -80,7 +82,7 @@ d3.json("/colleges", function(err, college_data){
   myMap.addLayer(markers)
   control.addOverlay(markers, "Colleges & Universities");
 });
-
+//adding crimes data markers and layer
 d3.json("/crimes", function(crimes_data){
   var redIcon = new L.Icon({
     iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -106,7 +108,7 @@ d3.json("/crimes", function(crimes_data){
   myMap.addLayer(markers)
   control.addOverlay(markers, "Crimes");
 });
-
+//adding k-12 school markers and layer
 d3.json("/basicedu", function(school_data){
   var purpleIcon = new L.Icon({
     iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
@@ -132,7 +134,7 @@ d3.json("/basicedu", function(school_data){
   myMap.addLayer(markers)
   control.addOverlay(markers, "K - 12 Schools");
 });
-
+//adding restaurant markers and layer
 d3.json("/Food", function(food_data){
   var greyIcon = new L.Icon({
     iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
@@ -165,15 +167,11 @@ id: "mapbox.streets",
 accessToken: API_KEY
 });
 
-// var parks = L.layerGroup(parkInfo);
-
+//create your base map
 var baseMaps = {
   "Street Map": streetmap
 };
 
-// var overlayMaps = {
-//   "Parks": parks
-// };
 
 //center map over Wake County zoomed out
 var myMap = L.map("map", {
