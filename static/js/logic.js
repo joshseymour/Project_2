@@ -39,16 +39,20 @@ d3.json("/dogParks", function(dog_data){
     shadowSize: [41, 41]
   });
   var dogInfo = []
+  var markers = L.markerClusterGroup();
+
   for (var i = 0; i < dog_data.length; i++) {
     var dog = L.marker(dog_data[i].location, {
       fillOpacity: 0.75,
       color: "red",
       fillColor: "blue",
       icon: blueIcon,
-    }).bindPopup("<h1>" + dog_data[i].site + "</h1> <hr> <h3>Address: " + dog_data[i].address + "</h3> <h3>Park Hours: " + dog_data[i].hours + "</h3> <h3> Dog Fountain? " + dog_data[i].dog_fountain + "</h3> <h3> Bathroom? " + dog_data[i].bathroon + "</h3> <h3> Small Dog Area? " + dog_data[i].small_dog_area + "</h3> <h3> Climbing Platform? " + dog_data[i].climbing_platform + "</h3> <h3> Picnic Table? " + dog_data[i].picnic_table + "</h3> <h3> Shade? " + dog_data[i].shade + "</h3> <h3> Wood Chips? " + dog_data[i].wood_chips + "</h3>" ).addTo(myMap);
+    }).bindPopup("<h1>" + dog_data[i].site + "</h1> <hr> <h3>Address: " + dog_data[i].address + "</h3> <h3>Park Hours: " + dog_data[i].hours + "</h3> <h3> Dog Fountain? " + dog_data[i].dog_fountain + "</h3> <h3> Bathroom? " + dog_data[i].bathroon + "</h3> <h3> Small Dog Area? " + dog_data[i].small_dog_area + "</h3> <h3> Climbing Platform? " + dog_data[i].climbing_platform + "</h3> <h3> Picnic Table? " + dog_data[i].picnic_table + "</h3> <h3> Shade? " + dog_data[i].shade + "</h3> <h3> Wood Chips? " + dog_data[i].wood_chips + "</h3>" );
     dogInfo.push(dog)
   }
-  addLayergroup (dogInfo, "Dog Parks");
+  markers.addLayers(dogInfo)
+  myMap.addLayer(markers)
+  control.addOverlay(markers, "Dog Parks");
 });
 
 d3.json("/colleges", function(err, college_data){
@@ -61,16 +65,20 @@ d3.json("/colleges", function(err, college_data){
     shadowSize: [41, 41]
   });
   var collegeInfo = []
+  var markers = L.markerClusterGroup();
+
   for (var i = 0; i < college_data.length; i++) {
     var schools = L.marker(college_data[i].location, {
       fillOpacity: 0.75,
       color: "red",
       fillColor: "blue",
       icon: greenIcon
-    }).bindPopup("<h1>" + college_data[i].collegename + "</h1> <hr> <h3>Address: " + college_data[i].address + "</h3>").addTo(myMap);
+    }).bindPopup("<h1>" + college_data[i].collegename + "</h1> <hr> <h3>Address: " + college_data[i].address + "</h3>");
     collegeInfo.push(schools)
   }
-  addLayergroup (collegeInfo, "Colleges");
+  markers.addLayers(collegeInfo)
+  myMap.addLayer(markers)
+  control.addOverlay(markers, "Colleges & Universities");
 });
 
 d3.json("/crimes", function(crimes_data){
@@ -83,16 +91,20 @@ d3.json("/crimes", function(crimes_data){
     shadowSize: [41, 41]
   });
   var crimesInfo = []
+  var markers = L.markerClusterGroup();
+
   for (var i = 0; i < crimes_data.length; i++) {
       var crimes = L.marker(crimes_data[i].location, {
         fillOpacity: 0.75,
         color: "red",
         fillColor: "blue",
         icon: redIcon
-      }).bindPopup("<h1>" + crimes_data[i].crime + "</h1> <hr> <h3>Description: " + crimes_data[i].crime_description + "</h3>").addTo(myMap);
+      }).bindPopup("<h1>" + crimes_data[i].crime + "</h1> <hr> <h3>Description: " + crimes_data[i].crime_description + "</h3>");
       crimesInfo.push(crimes)
     }
-  addLayergroup (crimesInfo, "Crimes");
+  markers.addLayers(crimesInfo)
+  myMap.addLayer(markers)
+  control.addOverlay(markers, "Crimes");
 });
 
 d3.json("/basicedu", function(school_data){
@@ -105,16 +117,20 @@ d3.json("/basicedu", function(school_data){
     shadowSize: [41, 41]
   });
   var schoolInfo = []
+  var markers = L.markerClusterGroup();
+
   for (var i = 0; i < school_data.length; i++) {
       var school = L.marker(school_data[i].location, {
         fillOpacity: 0.75,
         color: "red",
         fillColor: "blue",
         icon: purpleIcon
-      }).bindPopup("<h1>" + school_data[i].schoolname + "</h1> <hr> <h3>Type of School: " + school_data[i].type + "</h3>").addTo(myMap);
+      }).bindPopup("<h1>" + school_data[i].schoolname + "</h1> <hr> <h3>Type of School: " + school_data[i].type + "</h3>");
       schoolInfo.push(school)
     }
-  addLayergroup (schoolInfo, "K - 12 Schools");
+  markers.addLayers(schoolInfo)
+  myMap.addLayer(markers)
+  control.addOverlay(markers, "K - 12 Schools");
 });
 
 d3.json("/Food", function(food_data){
@@ -127,16 +143,18 @@ d3.json("/Food", function(food_data){
     shadowSize: [41, 41]
   });
   var foodInfo = []
+  var markers = L.markerClusterGroup();
+
   for (var i = 0; i < food_data.length; i++) {
       var food = L.marker(food_data[i].location, {
         fillOpacity: 0.75,
-        color: "red",
-        fillColor: "blue",
         icon: greyIcon
-      }).bindPopup("<h1>" + food_data[i].name + "</h1> <hr> <h3>Address: " + food_data[i].address + "</h3>").addTo(myMap);
+      }).bindPopup("<h1>" + food_data[i].name + "</h1> <hr> <h3>Address: " + food_data[i].address + "</h3>");
       foodInfo.push(food)
     }
-  addLayergroup (foodInfo, "Restaurants");
+  markers.addLayers(foodInfo)
+  myMap.addLayer(markers)
+  control.addOverlay(markers, "Restaurants");
 });
 
 // Adding tile layer
