@@ -48,10 +48,10 @@
             var city = document.getElementById("city").value
             var endPoint = query_url + address + ', ' + city + ', ' +  "NC" + apiKey;  
             d3.json(endPoint, function(data){
-              // var lat = data.results[0].geometry.location.lat();
-            // var lng = document.getElementById("lng").value;
-            // myMap.setView(new L.LatLng(lat,lng, 8));
-              console.log(data)
+              var lat = data.results[0].geometry.location.lat;
+              var lng = data.results[0].geometry.location.lng;
+              myMap.setView(new L.LatLng(lat,lng));
+              myMap.zoomIn(4)
             })
 
         };   
