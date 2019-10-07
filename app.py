@@ -29,7 +29,7 @@ Base.prepare(db.engine, reflect=True, schema="public")
 # Save references to each table
 Parks = Base.classes.parks
 Dog_Parks = Base.classes.dogparks
-colleges = Base.classes.colleges
+Colleges = Base.classes.colleges
 Crimes = Base.classes.crime
 Basicedu = Base.classes.basicedu
 Food = Base.classes.wakefood 
